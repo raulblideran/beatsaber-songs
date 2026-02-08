@@ -13,9 +13,15 @@ FIRST=true
 # Loop through each song folder
 for folder in "$BEATSABER_PATH"*/; do
     if [ -d "$folder" ]; then
-        INFO_FILE="$folder/Info.dat"
+        # Check for both Info.dat and info.dat (case-insensitive)
+        INFO_FILE=""
+        if [ -f "$folder/Info.dat" ]; then
+            INFO_FILE="$folder/Info.dat"
+        elif [ -f "$folder/info.dat" ]; then
+            INFO_FILE="$folder/info.dat"
+        fi
 
-        if [ -f "$INFO_FILE" ]; then
+        if [ -n "$INFO_FILE" ]; then
             FOLDER_NAME=$(basename "$folder")
 
             # Read the Info.dat file
